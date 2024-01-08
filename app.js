@@ -3,15 +3,18 @@ const connectDB = require('./config/db');
 const router = require('./route/route');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./docs/swagger.json'); // Update with your Swagger JSON file path
+require('./services/passport');
+const auth = require('./route/auth');
+const swaggerDocument = require('./docs/swagger.json');
+const user = require('./route/user');
 const app = express()
 const port = 3000
 
 app.use(bodyParser.json());
 app.use(express.json());
-app.use("/api", router)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api", router)
 
 app.use((error, req, res, next)=>{
 console.log(error)

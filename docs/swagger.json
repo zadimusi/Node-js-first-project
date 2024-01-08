@@ -50,6 +50,13 @@
             "type": "string"
           },
           {
+            "name": "password",
+            "in": "formData",
+            "description": "User's password",
+            "required": true,
+            "type": "password"
+          },
+          {
             "name": "image",
             "in": "formData",
             "description": "The file to upload",
