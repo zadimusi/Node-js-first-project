@@ -30,7 +30,6 @@ passport.use(
               return done({ message: "Email already registered" });
             }
             
-            console.log(email,password)
         //   let userWithPhone = await User.findOne({
         //     mobileNumber: req.body.mobileNumber,
         //   });
@@ -75,8 +74,8 @@ passport.use("login", new LocalStrategy({
     usernameField: 'email', // Assuming your email field is named 'email'
     passwordField: 'password'
 }, async function  (email, password, done) {
-    try {
-        const user = await User.findOne({email: email});
+  try {
+    const user = await User.findOne({email: email});
         if (!user) {
             return done(null, false, { message: "User not found" });
         }

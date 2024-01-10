@@ -1,7 +1,7 @@
 const express = require("express");
 const jwt = require('jsonwebtoken');
 const passport = require("passport");
-const { getAllUsers, signup, login  } = require("../controller/UserController");
+const { getAllUsers, signup, login, refreshToken  } = require("../controller/UserController");
 const multerInstance = require('../helper/multer/multer');
 
 const router = express.Router();
@@ -48,6 +48,8 @@ router.post(
 //   });
 
 router.use(passport.authenticate("jwt", { session: false }))
+
+router.post('/refresh-token',refreshToken)
 
 router.get('/users',getAllUsers)
 // router.post('/users', multerInstance.single('image'),store)
