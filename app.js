@@ -9,18 +9,20 @@ const swaggerDocument = require('./docs/swagger.json');
 const user = require('./route/user');
 const app = express()
 const port = 3000
+global.clg = console.log
 
 app.use(bodyParser.json());
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: false }));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api", router)
 
 app.use((error, req, res, next)=>{
-console.log(error)
-res.json({
-    msg: error
-})
+    return res.json({
+        msg: error.errors
+    })
 })
 
 connectDB().then(()=>{
