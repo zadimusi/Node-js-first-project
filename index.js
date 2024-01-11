@@ -25,8 +25,8 @@ app.use((error, req, res, next)=>{
 })
 
 connectDB().then(()=>{
-    app.listen(process.env.LOCAL,()=>{
-        console.log(`Example app listening at http://localhost:${process.env.LOCAL}`);
+    app.listen(process.env.PRODUCTION,()=>{
+        console.log(`Example app listening at http://localhost:${process.env.PRODUCTION}`);
     })
 }).catch((error)=>{
  console.log(error)

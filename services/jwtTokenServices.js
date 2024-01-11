@@ -3,7 +3,6 @@ const { sign } = require("jsonwebtoken");
 const User = require("../model/User");
 
 const getJwtTokens = async ({ id, email }, updateToken = false) => {
-  console.log(updateToken, "updateToken")
   const body = { id, email };
   const token = sign({ user: body },  process.env.JWT_SECRET_KEY, {
     expiresIn: "1h",

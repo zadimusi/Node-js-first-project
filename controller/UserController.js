@@ -2,6 +2,7 @@ const User = require("../model/User")
 const passport = require("passport");
 const jwt = require('jsonwebtoken');
 const jwtToken = require("../services/jwtTokenServices");
+const emailService= require("../services/emailService.js")
 
 const getAllUsers = async (req,res)=>{
     const u = new User();
@@ -55,18 +56,29 @@ const getAllUsers = async (req,res)=>{
 
 const login = async (req, res, next) => {
     passport.authenticate("login", (err, user, info) => {
+     
       try {
-        if (err || !user) {
+
+        if (!user) {
+          return res.status(400).json({
+            status: false,
+            message: "user not found.",
+          });
+      }
+
+        if (err) {
           const error = new Error("An error occurred.");
           return next(err);
         }
+        
+        
   
         req.login(user, { session: false }, async (error) => {
           if (error) return next(error);
-          // emailService.sendMail(
-          //   "login",
-          //   user
-          // );
+          emailService.sendMail(
+            "login",
+            user
+          );
           const body = { id: user._id, email: user.email };
           const { token, refereshToken } = await jwtToken.getJwtTokens(
             {
