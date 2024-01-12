@@ -1,4 +1,5 @@
 const express = require('express')
+require('./config/config.env')()
 const connectDB = require('./config/db');
 const router = require('./route/route');
 const bodyParser = require('body-parser');
@@ -9,7 +10,7 @@ const swaggerDocument = require('./docs/swagger.json');
 const user = require('./route/user');
 const app = express()
 global.clg = console.log
-
+let port;
 app.use(bodyParser.json());
 app.use(express.json());
 
@@ -24,9 +25,21 @@ app.use((error, req, res, next)=>{
     })
 })
 
+switch (process.env.NODE_ENV) {
+    case 'staging':
+       port = process.env.STAGE
+        break;
+    case 'production':
+        port = process.env.PROD
+        break;
+    default:
+        case 'local':
+        port = process.env.LOCAL
+  }
+
 connectDB().then(()=>{
-    app.listen(process.env.LOCAL,()=>{
-        console.log(`Example app listening at http://localhost:${process.env.LOCAL}`);
+    app.listen(port,()=>{
+        console.log(`Example app listening at http://localhost:${port}`);
     })
 }).catch((error)=>{
  console.log(error)
