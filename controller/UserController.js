@@ -59,6 +59,13 @@ const login = async (req, res, next) => {
      
       try {
 
+        if (!user && info) {
+          return res.status(400).json({
+            status: false,
+            message: info.message,
+          });
+      }
+
         if (!user) {
           return res.status(400).json({
             status: false,
@@ -107,15 +114,21 @@ const login = async (req, res, next) => {
 
 
 const signup = async (req, res) => {
-    // console.log(req.body);
+
     // if (req.user.passwordMissmatched) {
     //   return res.status(200).json({
     //     status: false,
     //     message: "Password and confirm password are not matching!",
     //   });
     // }
-  
+
+    // emailService.sendMail(
+    //   "signup",
+    //   req.user
+    // );
+    
      const body = { id: req.user._id, email: req.user.email };
+
   
     const { token, refereshToken, userId } = await jwtToken.getJwtTokens(
       {

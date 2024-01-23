@@ -25,7 +25,6 @@ passport.use(
         //   }
   
           let userWithEmail = await User.findOne({ email: email });
-
           if (userWithEmail) {
               return done({ message: "Email already registered" });
             }
@@ -84,7 +83,8 @@ passport.use("login", new LocalStrategy({
         if (!validate) {
             return done(null, false, { message: "Wrong Password" });
         }
-        return done(null, user, { message: "Logged in Successfully" });
+        const { refreshToken, password: userPassword, ...userWithoutSensitiveInfo } = user.toObject();
+        return done(null, userWithoutSensitiveInfo, { message: "Logged in Successfully" });
     } catch (error) {
       console.log(error)
         done(error);

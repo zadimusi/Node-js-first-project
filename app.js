@@ -19,6 +19,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api", router)
 
+app.use((err, req, res, next) => {
+  return res.json({message: err.message})
+})
+
 app.use((error, req, res, next)=>{
     return res.json({
         msg: error.errors
